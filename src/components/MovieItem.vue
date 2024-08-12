@@ -1,6 +1,7 @@
 <script setup>
 import {PencilIcon, StarIcon, TrashIcon} from "@heroicons/vue/24/solid";
-const props = defineProps({
+
+defineProps({
   movie: {
     default: ()=>({}),
     required: true,

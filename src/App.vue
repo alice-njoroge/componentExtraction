@@ -74,12 +74,12 @@ function validate() {
 }
 
 function saveMovie(payload) {
-  payload.id = form.id;
-  payload.name = form.name;
-  payload.description = form.description;
-  payload.image = form.image;
-  payload.inTheaters = form.inTheaters;
-  payload.genres = form.genres;
+  form.id = payload.id;
+  form.name = payload.name;
+  form.description = payload.description;
+  form.image = payload.image;
+  form.inTheaters = payload.inTheaters;
+  form.genres = payload.genres;
 
   if (form.id) {
     updateMovie();

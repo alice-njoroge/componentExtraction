@@ -11,10 +11,10 @@ const props = defineProps({
     type: Object
   }
 });
-const form = ref({...props.modelValue});
+const _form = ref({...props.modelValue}); //copy of props
 watch(
     () => props.modelValue,
-    (newValue) => form.value = {...newValue}
+    (newValue) => _form.value = {...newValue}
 )
 
 const genres = reactive([
@@ -23,17 +23,22 @@ const genres = reactive([
   {text: "Action", value: "Action"},
   {text: "Comedy", value: "Comedy"},
 ]);
+
+const emits = defineEmits({'update:modelValue': null})
+const handleSubmit = () =>{
+  emits('update:modelValue', {..._form.value}); //copy of props
+}
 </script>
 
 <template>
   <div class="modal-wrapper-inner">
-    <form @submit.prevent="$emit('update:modelValue', form)">
+    <form @submit.prevent="handleSubmit">
       <div class="movie-form-input-wrapper">
         <label for="name">Name</label>
         <input
             type="text"
             name="name"
-            v-model="form.name"
+            v-model="_form.name"
             class="movie-form-input"
         />
         <span class="movie-form-error">{{ errors.name }}</span>
@@ -43,7 +48,7 @@ const genres = reactive([
         <textarea
             type="text"
             name="description"
-            v-model="form.description"
+            v-model="_form.description"
             class="movie-form-textarea"
         />
         <span class="movie-form-error">{{ errors.description }}</span>
@@ -53,7 +58,7 @@ const genres = reactive([
         <input
             type="text"
             name="image"
-            v-model="form.image"
+            v-model="_form.image"
             class="movie-form-input"
         />
         <span class="movie-form-error">{{ errors.image }}</span>
@@ -62,7 +67,7 @@ const genres = reactive([
         <label for="genre">Genres</label>
         <select
             name="genre"
-            v-model="form.genres"
+            v-model="_form.genres"
             class="movie-form-input"
             multiple
         >
@@ -82,7 +87,7 @@ const genres = reactive([
         <label for="genre" class="movie-form-checkbox-label">
           <input
               type="checkbox"
-              v-model="form.inTheaters"
+              v-model="_form.inTheaters"
               :true-value="true"
               :false-value="false"
               class="movie-form-checkbox"
@@ -99,7 +104,7 @@ const genres = reactive([
         </button>
 
         <button type="submit" class="button-primary">
-          <span v-if="form.id">Update</span>
+          <span v-if="_form.id">Update</span>
           <span v-else>Create</span>
         </button>
       </div>
